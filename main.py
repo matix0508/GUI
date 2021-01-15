@@ -1,39 +1,33 @@
-from template import GUIProgram, sg
+from login import Login
+from menu import Menu
+from adding import AddExpense
 
-
-
-class MyProgram(GUIProgram):
+class Program:
     def __init__(self):
-        GUIProgram.__init__(self)
+        self.user = None
+        self.login = None
+        self.menu = None
+        self.adding = None
 
-    def save_to_file(self, filename):
-        lst = []
-        for item in ['expense', 'cost', 'date', 'category']:
-            lst.append(self.values[item])
-        with open(filename, "a") as file:
-            file.write(", ".join(lst))
-            file.write("\n")
-
-
-    def setup(self):
-        self.layout = [
-            [sg.Text("Add new expense")],
-            [sg.Text("Expense: "), sg.Input(key='expense', do_not_clear=False)],
-            [sg.Text('Cost: '), sg.Input(key='cost', do_not_clear=False)],
-            [sg.Text('Date: '), sg.Input(key='date', do_not_clear=False)],
-            [sg.Text('Category'), sg.Input(key='category', do_not_clear=False)],
-            [sg.Button('Submit', bind_return_key=True)]
-        ]
-        self.title = "Expenses"
-
-    def main_loop(self):
+    def run(self):
+        self.login = Login()
+        self.login.run()
+        self.user = self.login.user
+        print(self.user)
+        self.menu = Menu(self.user)
+        self.adding = AddExpense(self.user)
         while True:
-            self.event, self.values = self.window.read()
-            if self.event == sg.WIN_CLOSED:
-                break
+            self.menu.run()
+            if self.menu.choice == 1:
+                self.adding.user = self.user
+                self.adding.run()
+            if self.menu.choice == 3:
+                self.login.user = None
+                self.login.run()
+                self.user = self.login.user
+            end = self.menu.ending or self.adding.ending or self.login.ending
+            if end:
+                break;
 
-            if self.event == 'Submit':
-                self.save_to_file('mfile.txt')
 
-p = MyProgram()
-p.run()
+Program().run()

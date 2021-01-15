@@ -8,4 +8,4 @@ class User:
         self.level = level
 
     def __repr__(self):
-        return f"user: {self.login}"
+        return self.login
