@@ -12,14 +12,16 @@ class MyProgram(GUIProgram):
             lst.append(self.values[item])
         with open(filename, "a") as file:
             file.write(", ".join(lst))
+            file.write("\n")
+
 
     def setup(self):
         self.layout = [
             [sg.Text("Add new expense")],
-            [sg.Text("Expense: "), sg.Input(key='expense')],
-            [sg.Text('Cost: '), sg.Input(key='cost')],
-            [sg.Text('Date: '), sg.Input(key='date')],
-            [sg.Text('Category'), sg.Input(key='category')],
+            [sg.Text("Expense: "), sg.Input(key='expense', do_not_clear=False)],
+            [sg.Text('Cost: '), sg.Input(key='cost', do_not_clear=False)],
+            [sg.Text('Date: '), sg.Input(key='date', do_not_clear=False)],
+            [sg.Text('Category'), sg.Input(key='category', do_not_clear=False)],
             [sg.Button('Submit', bind_return_key=True)]
         ]
         self.title = "Expenses"
