@@ -22,7 +22,7 @@ def get_users():
 
     for id, login, password, name, level in budget.select("SELECT UserID, login, password, name, level from users"):
         output.append(User(login, password, id, name, level))
-        print(password)
+        # print(password)
     return output
 
 class Login(GUIProgram):

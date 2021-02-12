@@ -30,3 +30,10 @@ class Database:
         self.cursor.execute(sql)
         result = self.cursor.fetchall()
         return result
+
+    def insert(self, sql):
+        if not self.connection:
+            self.connect()
+
+        self.cursor.execute(sql)
+        self.connection.commit()
